@@ -1,4 +1,6 @@
+import config from '../common/config/index';
 import * as MODELS from '../constants/models';
+import * as API from './utils/calculate-tax';
 
 export default {
   namespace: MODELS.MODEL_TAX,
@@ -33,16 +35,26 @@ export default {
 
   reducers: {
     setSalary({ payload }, state) {
-      console.log(payload);
       return {
         ...state,
         salary: payload
       };
     },
     calculate({ }, state) {
-      console.log(payload);
+      const p = API.calculatePersonal(state.salary);
+      const c = API.calculateCompany(state.salary);
+      const oldTax = API.calculateIncomeTax(state.salary, config.oldThresholdOfIncomeTax);
+      const newTax = API.calculateIncomeTax(state.salary, config.newThresholdOfIncomeTax);
+
       return {
-        ...state
+        ...state,
+        personal: p,
+        company: c,
+        incomeTax: {
+          old: oldTax,
+          new: newTax,
+          saving: API.toTwoFixed((oldTax - newTax))
+        }
       };
     }
   }

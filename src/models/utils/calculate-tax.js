@@ -1,8 +1,8 @@
 import config from '../../common/config/index';
 
 // 保留两位小数
-function saveTwo(num) {
-  return Math.floor(num * 100) / 100;
+export function toTwoFixed(num) {
+  return parseFloat(num.toFixed(2));
 }
 
 // 获取社保基数
@@ -13,6 +13,7 @@ function getSocialSecurityBase(salary) {
   } else if (salary <= config.maxSocialSecurityBase) {
     base = config.minSocialSecurityBase;
   }
+  return base;
 }
 
 /**
@@ -39,14 +40,14 @@ function getIncomeTaxLevel(income) {
  * 计算个人部分
  * @param {税前月薪} salary 
  */
-function calculatePersonal(salary) {
+export function calculatePersonal(salary) {
   const base = getSocialSecurityBase(salary);
   return {
-    endowment: saveTwo(base * 0.08),
-    medical: saveTwo(base * 0.02),
-    unemployment: saveTwo(base * 0.005),
-    housing: saveTwo(base * 0.07),
-    supplementaryHousing: 0
+    endowment: toTwoFixed(base * 0.08),
+    medical: toTwoFixed(base * 0.02),
+    unemployment: toTwoFixed(base * 0.005),
+    housing: toTwoFixed(base * 0.07),
+    supplementaryHousing: toTwoFixed(0)
   };
 }
 
@@ -54,16 +55,16 @@ function calculatePersonal(salary) {
  * 计算公司部分
  * @param {税前月薪} salary 
  */
-function calculateCompany(salary) {
+export function calculateCompany(salary) {
   const base = getSocialSecurityBase(salary);
   return {
-    endowment: saveTwo(base * 0.20),
-    medical: saveTwo(base * 0.11),
-    unemployment: saveTwo(base * 0.015),
-    employmentInjury: saveTwo(base * 0.005),
-    maternity: saveTwo(base * 0.01),
-    housing: saveTwo(base * 0.07),
-    supplementaryHousing: 0
+    endowment: toTwoFixed(base * 0.20),
+    medical: toTwoFixed(base * 0.11),
+    unemployment: toTwoFixed(base * 0.015),
+    employmentInjury: toTwoFixed(base * 0.005),
+    maternity: toTwoFixed(base * 0.01),
+    housing: toTwoFixed(base * 0.07),
+    supplementaryHousing: toTwoFixed(0)
   };
 }
 
@@ -77,9 +78,12 @@ function calculateCompany(salary) {
  * @param {税前月薪} salary 
  * @param {个税起征点} thresholdOfIncomeTax 
  */
-function calculateIncomeTax(salary, thresholdOfIncomeTax) {
-  const income = salary - calculatePersonal(salary) - thresholdOfIncomeTax;
+export function calculateIncomeTax(salary, thresholdOfIncomeTax) {
+  const ret = calculatePersonal(salary);
+  const sum = ret.endowment + ret.medical + ret.unemployment + ret.housing + ret.supplementaryHousing;
+
+  const income = salary - sum - thresholdOfIncomeTax;
   const level = getIncomeTaxLevel(income);
   const incomeTax = income * level.rate - level.cut;
-  return incomeTax;
+  return toTwoFixed(incomeTax);
 }

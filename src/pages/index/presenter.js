@@ -8,7 +8,10 @@ import './style.scss';
 
 const taxDispatcher = dispatcher[MODELS.MODEL_TAX];
 @connect(state => ({
-  salary: state[MODELS.MODEL_TAX].salary
+  salary: state[MODELS.MODEL_TAX].salary,
+  personal: state[MODELS.MODEL_TAX].personal,
+  company: state[MODELS.MODEL_TAX].company,
+  incomeTax: state[MODELS.MODEL_TAX].incomeTax
 }))
 export default class Index extends Component {
   config = {
@@ -37,31 +40,31 @@ export default class Index extends Component {
         <View style="height: 5px" />
         <AtAccordion title='个税缴纳' open={true} >
           <AtList hasBorder={false}>
-            <AtListItem title='之前的个税' extraText={this.props.incomeTax.old} />
-            <AtListItem title='新版的个税' extraText={this.props.incomeTax.new} />
-            <AtListItem title='节约的钱' extraText={this.props.incomeTax.saving} />
+            <AtListItem title='之前的个税' extraText={this.props.incomeTax.old.toString()} />
+            <AtListItem title='新版的个税' extraText={this.props.incomeTax.new.toString()} />
+            <AtListItem title='节约的钱' extraText={this.props.incomeTax.saving.toString()} />
           </AtList>
         </AtAccordion>
         <View style="height: 5px" />
         <AtAccordion title='五险一金(公司部分)'>
           <AtList hasBorder={false}>
-            <AtListItem title='养老保险金(20%)' extraText={this.props.company.endowment} />
-            <AtListItem title='医疗保险金(11%)' extraText={this.props.company.medical} />
-            <AtListItem title='失业保险金(1.5%)' extraText={this.props.company.unemployment} />
-            <AtListItem title='工伤保险金(0.5%)' extraText={this.props.company.employmentInjury} />
-            <AtListItem title='生育保险金(1%)' extraText={this.props.company.maternity} />
-            <AtListItem title='住房公积金(7%)' extraText={this.props.company.housing} />
-            <AtListItem title='补充住房公积金(0%)' extraText={this.props.company.supplementaryHousing} />
+            <AtListItem title='养老保险金(20%)' extraText={this.props.company.endowment.toString()} />
+            <AtListItem title='医疗保险金(11%)' extraText={this.props.company.medical.toString()} />
+            <AtListItem title='失业保险金(1.5%)' extraText={this.props.company.unemployment.toString()} />
+            <AtListItem title='工伤保险金(0.5%)' extraText={this.props.company.employmentInjury.toString()} />
+            <AtListItem title='生育保险金(1%)' extraText={this.props.company.maternity.toString()} />
+            <AtListItem title='住房公积金(7%)' extraText={this.props.company.housing.toString()} />
+            <AtListItem title='补充住房公积金(0%)' extraText={this.props.company.supplementaryHousing.toString()} />
           </AtList>
         </AtAccordion>
         <View style="height: 5px" />
         <AtAccordion title='五险一金(个人部分)'>
           <AtList hasBorder={false}>
-            <AtListItem title='养老保险金(20%)' extraText={this.props.personal.endowment} />
-            <AtListItem title='医疗保险金(11%)' extraText={this.props.personal.medical} />
-            <AtListItem title='失业保险金(1.5%)' extraText={this.props.personal.unemployment} />
-            <AtListItem title='住房公积金(7%)' extraText={this.props.personal.housing} />
-            <AtListItem title='补充住房公积金(0%)' extraText={this.props.personal.supplementaryHousing} />
+            <AtListItem title='养老保险金(20%)' extraText={this.props.personal.endowment.toString()} />
+            <AtListItem title='医疗保险金(11%)' extraText={this.props.personal.medical.toString()} />
+            <AtListItem title='失业保险金(1.5%)' extraText={this.props.personal.unemployment.toString()} />
+            <AtListItem title='住房公积金(7%)' extraText={this.props.personal.housing.toString()} />
+            <AtListItem title='补充住房公积金(0%)' extraText={this.props.personal.supplementaryHousing.toString()} />
           </AtList>
         </AtAccordion>
       </View >
