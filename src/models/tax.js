@@ -7,6 +7,7 @@ export default {
 
   state: {
     salary: 0,
+    afterTax: 0,
     incomeTax: {
       old: 0,
       new: 0,
@@ -48,8 +49,11 @@ export default {
       const oldTax = API.calculateIncomeTax(state.salary, config.oldThresholdOfIncomeTax, config.oldIncomeTaxLevels);
       const newTax = API.calculateIncomeTax(state.salary, config.newThresholdOfIncomeTax, config.newIncomeTaxLevels);
 
+      const afterTax = state.salary - newTax - p.sum;
+
       return {
         ...state,
+        afterTax,
         personal: p,
         company: c,
         incomeTax: {

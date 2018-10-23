@@ -9,6 +9,7 @@ import './style.scss';
 const taxDispatcher = dispatcher[MODELS.MODEL_TAX];
 @connect(state => ({
   salary: state[MODELS.MODEL_TAX].salary,
+  afterTax: state[MODELS.MODEL_TAX].afterTax,
   personal: state[MODELS.MODEL_TAX].personal,
   company: state[MODELS.MODEL_TAX].company,
   incomeTax: state[MODELS.MODEL_TAX].incomeTax
@@ -18,7 +19,7 @@ export default class Index extends Component {
     navigationBarTitleText: '税扣扣'
   };
 
-  constructor () {
+  constructor() {
     super(...arguments)
     this.state = {
       buttonDisabled: true
@@ -56,6 +57,7 @@ export default class Index extends Component {
             <AtListItem title='之前的个税' extraText={this.props.incomeTax.old.toString()} />
             <AtListItem title='新版的个税' extraText={this.props.incomeTax.new.toString()} />
             <AtListItem title='节约的钱' extraText={this.props.incomeTax.saving.toString()} />
+            <AtListItem title='到手的钱' extraText={this.props.afterTax.toString()} />
           </AtList>
         </AtAccordion>
         <View style="height: 5px" />
