@@ -17,7 +17,8 @@ export default {
       medical: 0,
       unemployment: 0,
       housing: 0,
-      supplementaryHousing: 0
+      supplementaryHousing: 0,
+      sum: 0
     },
     company: {
       endowment: 0,
@@ -26,7 +27,8 @@ export default {
       employmentInjury: 0,
       maternity: 0,
       housing: 0,
-      supplementaryHousing: 0
+      supplementaryHousing: 0,
+      sum: 0
     }
   },
 
@@ -43,8 +45,8 @@ export default {
     calculate({ }, state) {
       const p = API.calculatePersonal(state.salary);
       const c = API.calculateCompany(state.salary);
-      const oldTax = API.calculateIncomeTax(state.salary, config.oldThresholdOfIncomeTax);
-      const newTax = API.calculateIncomeTax(state.salary, config.newThresholdOfIncomeTax);
+      const oldTax = API.calculateIncomeTax(state.salary, config.oldThresholdOfIncomeTax, config.oldIncomeTaxLevels);
+      const newTax = API.calculateIncomeTax(state.salary, config.newThresholdOfIncomeTax, config.newIncomeTaxLevels);
 
       return {
         ...state,

@@ -20,9 +20,9 @@ function getSocialSecurityBase(salary) {
  * 获取扣税档次信息
  * @param {应纳税所得额} income
  */
-function getIncomeTaxLevel(income) {
+function getIncomeTaxLevel(income, taxLevels) {
   let findItem = {};
-  config.incomeTaxLevels.some((item) => {
+  taxLevels.some((item) => {
     if (income > item.min && income <= item.max) {
       findItem = item;
       return true;
@@ -47,7 +47,8 @@ export function calculatePersonal(salary) {
     medical: toTwoFixed(base * 0.02),
     unemployment: toTwoFixed(base * 0.005),
     housing: toTwoFixed(base * 0.07),
-    supplementaryHousing: toTwoFixed(0)
+    supplementaryHousing: toTwoFixed(0),
+    sum: toTwoFixed(base * 0.175)
   };
 }
 
@@ -64,7 +65,8 @@ export function calculateCompany(salary) {
     employmentInjury: toTwoFixed(base * 0.005),
     maternity: toTwoFixed(base * 0.01),
     housing: toTwoFixed(base * 0.07),
-    supplementaryHousing: toTwoFixed(0)
+    supplementaryHousing: toTwoFixed(0),
+    sum: toTwoFixed(base * 0.41)
   };
 }
 
@@ -77,13 +79,14 @@ export function calculateCompany(salary) {
  * 
  * @param {税前月薪} salary 
  * @param {个税起征点} thresholdOfIncomeTax 
+ * @param {税率表} taxLevels 
  */
-export function calculateIncomeTax(salary, thresholdOfIncomeTax) {
+export function calculateIncomeTax(salary, thresholdOfIncomeTax, taxLevels) {
   const ret = calculatePersonal(salary);
   const sum = ret.endowment + ret.medical + ret.unemployment + ret.housing + ret.supplementaryHousing;
 
   const income = salary - sum - thresholdOfIncomeTax;
-  const level = getIncomeTaxLevel(income);
+  const level = getIncomeTaxLevel(income, taxLevels);
   const incomeTax = income * level.rate - level.cut;
   return toTwoFixed(incomeTax);
 }
