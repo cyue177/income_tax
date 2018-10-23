@@ -12,7 +12,7 @@ const taxDispatcher = dispatcher[MODELS.MODEL_TAX];
 }))
 export default class Index extends Component {
   config = {
-    navigationBarTitleText: '个税计算器'
+    navigationBarTitleText: '税扣扣'
   };
 
   handleChange(value) {
