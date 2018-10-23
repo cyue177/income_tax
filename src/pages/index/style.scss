@@ -1,4 +1,20 @@
+@import '../../constants/themes/index.scss';
 
 .index {
   margin: 15px;
+}
+
+.at-accordion .at-accordion__header {
+  font-size: $ft16;
+  font-weight: 600;
+  color: $titleColor;
+}
+
+.at-accordion .at-list__item {
+  font-size: $ft14;
+  color: $textLightColor;
+}
+
+.at-accordion .at-list__item .item-extra__info {
+  color: $yellowColor;
 }
