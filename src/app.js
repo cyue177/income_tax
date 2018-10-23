@@ -1,20 +1,18 @@
 import Taro, { Component } from '@tarojs/taro';
 import { Provider } from '@tarojs/redux';
 import zoro from '@opcjs/zoro';
-import counter from './models/counter';
-import Index from './pages/index/presenter';
+import tax from './models/tax';
+import Index from './pages/index';
 
 const app = zoro();
-app.model(counter);
+app.model(tax);
 
 const store = app.start(false); // 启动并创建store, 阻止默认初始化动作
 
 class App extends Component {
   config = {
     pages: [
-      'pages/components-demo/presenter',
-      'pages/components-demo/counter/presenter',
-      'pages/components-demo/medical-card/presenter'
+      'pages/index/presenter'
     ],
     window: {
       backgroundTextStyle: 'light',
