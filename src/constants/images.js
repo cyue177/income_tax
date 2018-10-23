@@ -5,5 +5,6 @@ const IMAGES = {
   default_flag: require('../common/assets/images/default_flag.png'),
   id_card: require('../common/assets/images/id_card.png'),
   med_card: require('../common/assets/images/med_card.png'),
+  tax: require('../common/assets/images/tax.png'),
 };
 export default IMAGES;

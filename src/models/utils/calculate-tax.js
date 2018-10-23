@@ -82,10 +82,17 @@ export function calculateCompany(salary) {
  * @param {税率表} taxLevels 
  */
 export function calculateIncomeTax(salary, thresholdOfIncomeTax, taxLevels) {
+  if (salary <= thresholdOfIncomeTax) {
+    return 0.0;
+  }
+
   const ret = calculatePersonal(salary);
   const sum = ret.endowment + ret.medical + ret.unemployment + ret.housing + ret.supplementaryHousing;
+  let income = salary - sum - thresholdOfIncomeTax;
+  if (income <= 0) {
+    income = 0.000001;
+  }
 
-  const income = salary - sum - thresholdOfIncomeTax;
   const level = getIncomeTaxLevel(income, taxLevels);
   const incomeTax = income * level.rate - level.cut;
   return toTwoFixed(incomeTax);
