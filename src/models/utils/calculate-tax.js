@@ -10,7 +10,7 @@ function getSocialSecurityBase(salary) {
   let base = salary;
   if (salary >= config.maxSocialSecurityBase) {
     base = config.maxSocialSecurityBase;
-  } else if (salary <= config.maxSocialSecurityBase) {
+  } else if (salary <= config.minSocialSecurityBase) {
     base = config.minSocialSecurityBase;
   }
   return base;
