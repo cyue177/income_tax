@@ -1,6 +1,6 @@
 import config from '../common/config/index';
 import * as MODELS from '../constants/models';
-import * as API from './utils/calculate-tax';
+import * as API from './utils/calculate';
 
 export default {
   namespace: MODELS.MODEL_TAX,
