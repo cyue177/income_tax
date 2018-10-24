@@ -3,7 +3,12 @@ import config from '../../common/config/index';
 function findItemByKey(key, items) {
   let findItem = {};
   items.some((item) => {
-    return (item.key === key);
+    if (item.key === key) {
+      findItem = item;
+      return true;
+    } else {
+      return false;
+    }
   });
   return findItem;
 }
@@ -11,8 +16,8 @@ function findItemByKey(key, items) {
 // 把属性的值全部相加
 function sumAllProperties(obj) {
   let sum = 0;
-  for (const a in obj) {
-    sum += a;
+  for (const prop in obj) {
+    sum += obj[prop];
   }
   return sum;
 }
@@ -75,7 +80,7 @@ export function calculatePersonal(salary, settings) {
     supplementaryHousing: extraHousing
   };
 
-  const sum = sumAllProperties(r);
+  const sum = toTwoFixed(sumAllProperties(r));
   return {
     ...r,
     sum
@@ -105,7 +110,7 @@ export function calculateCompany(salary, settings) {
     supplementaryHousing: extraHousing
   };
 
-  const sum = sumAllProperties(r);
+  const sum = toTwoFixed(sumAllProperties(r));
   return {
     ...r,
     sum
@@ -147,7 +152,7 @@ export function calculateIncomeTax(salary, thresholdOfIncomeTax, taxLevels, sett
  * @param {object} settings 设置参数
  */
 export function getExtraCut(settings) {
-  const sum = 0;
+  let sum = 0;
 
   // 存在首套房贷，按照每年12000元（每月1000元）标准定额扣除
   if (settings.isExistedFirstMortgage) {

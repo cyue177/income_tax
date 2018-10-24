@@ -12,7 +12,8 @@ const taxDispatcher = dispatcher[MODELS.MODEL_TAX];
   afterTax: state[MODELS.MODEL_TAX].afterTax,
   personal: state[MODELS.MODEL_TAX].personal,
   company: state[MODELS.MODEL_TAX].company,
-  incomeTax: state[MODELS.MODEL_TAX].incomeTax
+  incomeTax: state[MODELS.MODEL_TAX].incomeTax,
+  settings: state[MODELS.MODEL_SETTINGS].settings
 }))
 export default class Index extends Component {
   config = {
@@ -34,7 +35,7 @@ export default class Index extends Component {
   }
 
   handleCalculate() {
-    taxDispatcher.calculate(); // 计算五险一金和个税
+    taxDispatcher.calculate(this.props.settings); // 计算五险一金和个税
     this.setState({
       buttonDisabled: true
     });
@@ -68,9 +69,18 @@ export default class Index extends Component {
             <AtListItem title='失业保险金(1.5%)' extraText={this.props.company.unemployment.toString()} />
             <AtListItem title='工伤保险金(0.5%)' extraText={this.props.company.employmentInjury.toString()} />
             <AtListItem title='生育保险金(1%)' extraText={this.props.company.maternity.toString()} />
-            <AtListItem title='住房公积金(7%)' extraText={this.props.company.housing.toString()} />
-            <AtListItem title='补充住房公积金(0%)' extraText={this.props.company.supplementaryHousing.toString()} />
-            <AtListItem title='共计支出(41%)' extraText={this.props.company.sum.toString()} />
+            <AtListItem
+              title={`住房公积金(${this.props.settings.housing}%)`}
+              extraText={this.props.company.housing.toString()}
+            />
+            <AtListItem
+              title={`补充住房公积金(${this.props.settings.supplementaryHousing}%)`}
+              extraText={this.props.company.supplementaryHousing.toString()}
+            />
+            <AtListItem
+              title={`共计支出(${34 + this.props.settings.housing + this.props.settings.supplementaryHousing}%)`}
+              extraText={this.props.company.sum.toString()}
+            />
           </AtList>
         </AtAccordion>
         <View style="height: 5px" />
@@ -79,9 +89,18 @@ export default class Index extends Component {
             <AtListItem title='养老保险金(8%)' extraText={this.props.personal.endowment.toString()} />
             <AtListItem title='医疗保险金(2%)' extraText={this.props.personal.medical.toString()} />
             <AtListItem title='失业保险金(0.5%)' extraText={this.props.personal.unemployment.toString()} />
-            <AtListItem title='住房公积金(7%)' extraText={this.props.personal.housing.toString()} />
-            <AtListItem title='补充住房公积金(0%)' extraText={this.props.personal.supplementaryHousing.toString()} />
-            <AtListItem title='共计支出(17.5%)' extraText={this.props.personal.sum.toString()} />
+            <AtListItem
+              title={`住房公积金(${this.props.settings.housing}%)`}
+              extraText={this.props.personal.housing.toString()}
+            />
+            <AtListItem
+              title={`补充住房公积金(${this.props.settings.supplementaryHousing}%)`}
+              extraText={this.props.personal.supplementaryHousing.toString()}
+            />
+            <AtListItem
+              title={`共计支出(${10.5 + this.props.settings.housing + this.props.settings.supplementaryHousing}%)`}
+              extraText={this.props.personal.sum.toString()}
+            />
           </AtList>
         </AtAccordion>
       </View >

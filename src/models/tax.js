@@ -43,11 +43,11 @@ export default {
         salary: payload
       };
     },
-    calculate({ }, state) {
-      const p = API.calculatePersonal(state.salary);
-      const c = API.calculateCompany(state.salary);
-      const oldTax = API.calculateIncomeTax(state.salary, config.oldThresholdOfIncomeTax, config.oldIncomeTaxLevels);
-      const newTax = API.calculateIncomeTax(state.salary, config.newThresholdOfIncomeTax, config.newIncomeTaxLevels);
+    calculate({ payload }, state) {
+      const p = API.calculatePersonal(state.salary, payload);
+      const c = API.calculateCompany(state.salary, payload);
+      const oldTax = API.calculateIncomeTax(state.salary, config.oldThresholdOfIncomeTax, config.oldIncomeTaxLevels, payload);
+      const newTax = API.calculateIncomeTax(state.salary, config.newThresholdOfIncomeTax, config.newIncomeTaxLevels, payload);
 
       const afterTax = API.toTwoFixed(state.salary - newTax - p.sum);
 

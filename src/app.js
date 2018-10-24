@@ -2,10 +2,11 @@ import Taro, { Component } from '@tarojs/taro';
 import { Provider } from '@tarojs/redux';
 import zoro from '@opcjs/zoro';
 import tax from './models/tax';
+import settings from './models/settings';
 import Index from './pages/index';
 
 const app = zoro();
-app.model(tax);
+app.model([tax, settings]);
 
 const store = app.start(false); // 启动并创建store, 阻止默认初始化动作
 
