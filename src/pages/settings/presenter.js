@@ -1,89 +1,115 @@
 import Taro, { Component } from '@tarojs/taro';
-import { View } from '@tarojs/components';
-import { AtInput, AtButton, AtAccordion, AtList, AtListItem } from 'taro-ui';
+import { View, Input, Picker } from '@tarojs/components';
+import { AtButton, AtInputNumber, AtActionSheet, AtActionSheetItem, AtList, AtListItem } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { dispatcher } from '@opcjs/zoro';
 import * as MODELS from '../../constants/models';
 import './style.scss';
 
-const taxDispatcher = dispatcher[MODELS.MODEL_TAX];
+const settingsDispatcher = dispatcher[MODELS.MODEL_SETTINGS];
 @connect(state => ({
-  salary: state[MODELS.MODEL_TAX].salary,
-  afterTax: state[MODELS.MODEL_TAX].afterTax,
-  personal: state[MODELS.MODEL_TAX].personal,
-  company: state[MODELS.MODEL_TAX].company,
-  incomeTax: state[MODELS.MODEL_TAX].incomeTax
+  settings: state[MODELS.MODEL_SETTINGS].settings
 }))
 export default class Settings extends Component {
   config = {
-    navigationBarTitleText: '税扣扣'
+    navigationBarTitleText: '设置'
   };
 
-  constructor() {
-    super(...arguments)
-    this.state = {
-      buttonDisabled: true
+  constructor(props) {
+    super(props);
+    const settings = this.props.settings;
+    if (settings === undefined) {
+      return;
     }
+
+    this.state = {
+      ...settings,
+      selector: ['独生子女', '二胎家庭'],
+    };
   }
 
-  handleChange(value) {
-    taxDispatcher.setSalary(value); // 更新薪水数值
-    this.setState({
-      buttonDisabled: false
-    });
+
+
+  putSettings() {
+    let settings = {};
+    settingsDispatcher.setSetting(settings);
   }
 
-  handleCalculate() {
-    taxDispatcher.calculate(); // 计算五险一金和个税
+  // 住房公积金比例
+  handleHousingChange(value) {
     this.setState({
-      buttonDisabled: true
-    });
+      housing: value
+    })
+  }
+
+  // 补充住房公积金开关
+  handleExtraHousingSwitchChange(value) {
+    this.setState({
+      isExistedExtraHousing: value
+    })
+  }
+
+  // 补充住房公积金
+  handleExtraHousingChange(value) {
+    this.setState({
+      extraHousing: value
+    })
+  }
+
+  // 子女个数
+  handleChildrenNumberChange(value) {
+    this.setState({
+      childrenNumber: value
+    })
   }
 
   render() {
     return (
       <View className="index">
-        <AtInput
-          name='salary'
-          title='税前工资：'
-          type='number'
-          placeholder='请输入税前工资'
-          onChange={this.handleChange.bind(this)}
-        />
-        <AtButton type="primary" disabled={this.state.buttonDisabled} onClick={this.handleCalculate}>一键计算</AtButton>
-        <View style="height: 5px" />
-        <AtAccordion title='个税缴纳' open={true} >
+        <View >
+          <Text>公积金比例(%)</Text>
+          <AtInputNumber
+            min={5}
+            max={7}
+            step={1}
+            value={this.state.housing}
+            onChange={this.handleHousingChange}
+          />
+        </View>
+        <View style="height: 15px" />
+        <View>
+          <View>
+            <Text>是否有补充公积金</Text>
+            <Switch checked />
+          </View>
+          <Text>补充公积金比例(%)</Text>
+          <AtInputNumber
+            min={1}
+            max={5}
+            step={1}
+            value={this.state.extraHousing}
+            onChange={this.handleExtraHousingChange}
+          />
+        </View>
+        <View style="height: 15px" />
+        <View >
+          <View>
+            <Text>是否有子女教育</Text>
+            <Switch checked />
+          </View>
           <AtList hasBorder={false}>
-            <AtListItem title='之前的个税' extraText={this.props.incomeTax.old.toString()} />
-            <AtListItem title='新版的个税' extraText={this.props.incomeTax.new.toString()} />
-            <AtListItem title='节约的钱' extraText={this.props.incomeTax.saving.toString()} />
-            <AtListItem title='到手的钱' extraText={this.props.afterTax.toString()} />
+            <Picker mode='selector' range={this.state.selector} value={selectorValue} onChange={this.handleChange}>
+              <AtListItem hasBorder={false} title='子女类型' extraText='dddd' />
+            </Picker>
           </AtList>
-        </AtAccordion>
-        <View style="height: 5px" />
-        <AtAccordion title='五险一金(公司部分)'>
-          <AtList hasBorder={false}>
-            <AtListItem title='养老保险金(20%)' extraText={this.props.company.endowment.toString()} />
-            <AtListItem title='医疗保险金(11%)' extraText={this.props.company.medical.toString()} />
-            <AtListItem title='失业保险金(1.5%)' extraText={this.props.company.unemployment.toString()} />
-            <AtListItem title='工伤保险金(0.5%)' extraText={this.props.company.employmentInjury.toString()} />
-            <AtListItem title='生育保险金(1%)' extraText={this.props.company.maternity.toString()} />
-            <AtListItem title='住房公积金(7%)' extraText={this.props.company.housing.toString()} />
-            <AtListItem title='补充住房公积金(0%)' extraText={this.props.company.supplementaryHousing.toString()} />
-            <AtListItem title='共计支出(41%)' extraText={this.props.company.sum.toString()} />
-          </AtList>
-        </AtAccordion>
-        <View style="height: 5px" />
-        <AtAccordion title='五险一金(个人部分)'>
-          <AtList hasBorder={false}>
-            <AtListItem title='养老保险金(8%)' extraText={this.props.personal.endowment.toString()} />
-            <AtListItem title='医疗保险金(2%)' extraText={this.props.personal.medical.toString()} />
-            <AtListItem title='失业保险金(0.5%)' extraText={this.props.personal.unemployment.toString()} />
-            <AtListItem title='住房公积金(7%)' extraText={this.props.personal.housing.toString()} />
-            <AtListItem title='补充住房公积金(0%)' extraText={this.props.personal.supplementaryHousing.toString()} />
-            <AtListItem title='共计支出(17.5%)' extraText={this.props.personal.sum.toString()} />
-          </AtList>
-        </AtAccordion>
+        </View>
+        <View style="height: 15px" />
+        <View >
+          <View>
+            <Text>是否有首套房贷</Text>
+            <Switch checked />
+          </View>
+        </View>
       </View >
     );
   }

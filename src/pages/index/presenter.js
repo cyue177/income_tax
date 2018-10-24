@@ -20,8 +20,8 @@ export default class Index extends Component {
     navigationBarTitleText: '税扣扣'
   };
 
-  constructor() {
-    super(...arguments)
+  constructor(props) {
+    super(props)
     this.state = {
       buttonDisabled: true
     }

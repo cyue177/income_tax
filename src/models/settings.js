@@ -33,7 +33,7 @@ export default {
     setSetting({ payload }, state) {
       return {
         ...state,
-        setting: payload
+        settings: payload
       };
     }
   }
