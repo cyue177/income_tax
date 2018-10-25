@@ -110,7 +110,10 @@ const config = {
       supplementaryHousing: 0,
       sum: 0
     }
-  }
+  },
+
+  notice: '开源绿色软件，承诺绝不收集使用者的任何信息!',
+  copyright: 'Copyright © 2018 秦杨(qinyang_1980@qq.com) All rights reserved.'
 };
 
 export default config;

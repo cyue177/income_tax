@@ -3,6 +3,7 @@ import { View } from '@tarojs/components';
 import { AtInput, AtButton, AtAccordion, AtList, AtListItem } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { dispatcher } from '@opcjs/zoro';
+import config from '../../common/config/index';
 import * as MODELS from '../../constants/models';
 import './style.scss';
 
@@ -116,6 +117,12 @@ export default class Index extends Component {
             />
           </AtList>
         </AtAccordion>
+        <View className='at-article__p'>
+          {config.notice}
+        </View>
+        <View className='at-article__p'>
+          {config.copyright}
+        </View>
       </View >
     );
   }
