@@ -1,8 +1,9 @@
 import Taro, { Component } from '@tarojs/taro';
-import { View, Input, Picker } from '@tarojs/components';
-import { AtButton, AtInputNumber, AtActionSheet, AtActionSheetItem, AtList, AtListItem } from 'taro-ui';
+import { View, Picker, Text, Switch } from '@tarojs/components';
+import { AtButton, AtSwitch, AtInputNumber, AtListItem } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { dispatcher } from '@opcjs/zoro';
+import config from '../../common/config/index';
 import * as MODELS from '../../constants/models';
 import './style.scss';
 
@@ -15,52 +16,13 @@ export default class Settings extends Component {
     navigationBarTitleText: '设置'
   };
 
-  constructor(props) {
-    super(props);
-    const settings = this.props.settings;
-    if (settings === undefined) {
-      return;
-    }
-
-    this.state = {
-      ...settings,
-      selector: ['独生子女', '二胎家庭'],
-    };
+  handleValue(key, val) {
+    settingsDispatcher.set({ key, val });
+    console.log(this.props.settings);
   }
 
-
-
-  putSettings() {
-    let settings = {};
-    settingsDispatcher.setSetting(settings);
-  }
-
-  // 住房公积金比例
-  handleHousingChange(value) {
-    this.setState({
-      housing: value
-    })
-  }
-
-  // 补充住房公积金开关
-  handleExtraHousingSwitchChange(value) {
-    this.setState({
-      isExistedExtraHousing: value
-    })
-  }
-
-  // 补充住房公积金
-  handleExtraHousingChange(value) {
-    this.setState({
-      extraHousing: value
-    })
-  }
-
-  // 子女个数
-  handleChildrenNumberChange(value) {
-    this.setState({
-      childrenNumber: value
-    })
+  handleEvent(key, e) {
+    this.handleValue(key, e.detail.value);
   }
 
   render() {
@@ -72,43 +34,90 @@ export default class Settings extends Component {
             min={5}
             max={7}
             step={1}
-            value={this.state.housing}
-            onChange={this.handleHousingChange}
+            value={this.props.settings.housing}
+            onChange={this.handleValue.bind(this, 'housing')}
           />
         </View>
-        <View style="height: 15px" />
         <View>
           <View>
             <Text>是否有补充公积金</Text>
-            <Switch checked />
+            <Switch
+              checked={this.props.settings.isExistedSupplementaryHousing}
+              bindchange={this.handleEvent.bind(this, 'isExistedSupplementaryHousing')}
+            />
           </View>
           <Text>补充公积金比例(%)</Text>
           <AtInputNumber
             min={1}
             max={5}
             step={1}
-            value={this.state.extraHousing}
-            onChange={this.handleExtraHousingChange}
+            value={this.props.settings.supplementaryHousing}
+            onChange={this.handleValue.bind(this, 'supplementaryHousing')}
           />
         </View>
-        <View style="height: 15px" />
-        <View >
-          <View>
-            <Text>是否有子女教育</Text>
-            <Switch checked />
-          </View>
-          <AtList hasBorder={false}>
-            <Picker mode='selector' range={this.state.selector} value={selectorValue} onChange={this.handleChange}>
-              <AtListItem hasBorder={false} title='子女类型' extraText='dddd' />
-            </Picker>
-          </AtList>
+        <View>
+          <Text>是否有首套房贷</Text>
+          <Switch
+            checked={this.props.settings.isExistedFirstMortgage}
+            bindchange={this.handleEvent.bind(this, 'isExistedFirstMortgage')}
+          />
         </View>
-        <View style="height: 15px" />
+        <View>
+          <Text>是否有子女教育支出</Text>
+          <Switch
+            checked={this.props.settings.isExistedChildrenEducation}
+            bindchange={this.handleEvent.bind(this, 'isExistedChildrenEducation')}
+          />
+        </View>
+        <View >
+          <Picker mode='selector' range={config.childrenTypes}
+            value={this.props.settings.childrenIndex} onChange={this.handleEvent.bind(this, 'childrenIndex')}>
+            <AtListItem title='子女类型' extraText={this.props.settings.childrenIndex} />
+          </Picker>
+        </View>
         <View >
           <View>
-            <Text>是否有首套房贷</Text>
-            <Switch checked />
+            <Text>是否存在租房支出</Text>
+            <Switch
+              checked={this.props.settings.isExistedHouseRent}
+              bindchange={this.handleEvent.bind(this, 'isExistedHouseRent')}
+            />
           </View>
+          <Picker mode='selector' range={config.cityTypes}
+            value={this.props.settings.houseRentIndex} onChange={this.handleEvent.bind(this, 'houseRentIndex')}>
+            <AtListItem title='居住城市的类型' extraText={this.props.settings.houseRentIndex} />
+          </Picker>
+        </View>
+        <View >
+          <View>
+            <Text>是否赡养超过60岁以上的老人</Text>
+            <Switch
+              checked={this.props.settings.isExistedElderlyParents}
+              bindchange={this.handleEvent.bind(this, 'isExistedElderlyParents')}
+            />
+          </View>
+          <Text>兄弟姐妹的人数</Text>
+          <AtInputNumber
+            min={1}
+            max={500}
+            step={1}
+            value={this.props.settings.brothersNumber}
+            onChange={this.handleValue.bind(this, 'brothersNumber')}
+          />
+        </View>
+        <View >
+          <View>
+            <Text>是否有继续教育支出</Text>
+            <Switch
+              checked={this.props.settings.isExistedContinuingEducation}
+              bindchange={this.handleEvent.bind(this, 'isExistedContinuingEducation')}
+            />
+          </View>
+          <Picker mode='selector' range={config.educationTypes}
+            value={this.props.settings.continuingEducationIndex}
+            onChange={this.handleEvent.bind(this, 'continuingEducationIndex')}>
+            <AtListItem title='继续教育的类型' extraText={this.props.settings.continuingEducationIndex} />
+          </Picker>
         </View>
       </View >
     );

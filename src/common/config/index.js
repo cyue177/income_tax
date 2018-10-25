@@ -35,9 +35,9 @@ const config = {
 
   // 租房抵扣
   houseRent: [
-    { key: 0, desc: '直辖市、省会城市、计划单列市', cut: 1200 },
-    { key: 1, desc: '其它城市,户籍人口超过100万的城市', cut: 1000 },
-    { key: 2, desc: '其它城市,户籍人口不超过100万的城市', cut: 800 }
+    { key: 0, cut: 1200 },
+    { key: 1, cut: 1000 },
+    { key: 2, cut: 800 }
   ],
 
   // 首套房贷款抵扣
@@ -45,15 +45,20 @@ const config = {
 
   // 子女教育抵扣
   childrenEducation: [
-    { key: 0, desc: '1', cut: 1000 },
-    { key: 1, desc: '2', cut: 2000 }
+    { key: 0, cut: 1000 },
+    { key: 1, cut: 2000 }
   ],
 
   // 继续教育
   continuingEducation: [
-    { key: 0, desc: '学历教育', cut: 400 },
-    { key: 1, desc: '非学历教育', cut: 300 }
-  ]
+    { key: 0, cut: 400 },
+    { key: 1, cut: 300 }
+  ],
+
+  // 给前端控件用的
+  childrenTypes: ['独生子女', '二胎家庭'],
+  educationTypes: ['学历教育', '非学历教育'],
+  cityTypes: ['直辖市、省会城市、计划单列市', '其它城市,户籍人口超过100万的城市', '其它城市,户籍人口不超过100万的城市']
 };
 
 export default config;
