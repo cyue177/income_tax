@@ -8,8 +8,10 @@ import * as MODELS from '../../constants/models';
 import './style.scss';
 
 const settingsDispatcher = dispatcher[MODELS.MODEL_SETTINGS];
+const taxDispatcher = dispatcher[MODELS.MODEL_TAX];
 @connect(state => ({
-  settings: state[MODELS.MODEL_SETTINGS].settings
+  settings: state[MODELS.MODEL_SETTINGS].settings,
+  disableCalculate: state[MODELS.MODEL_TAX].disableCalculate,
 }))
 export default class Settings extends Component {
   config = {
@@ -18,7 +20,7 @@ export default class Settings extends Component {
 
   handleValue(key, val) {
     settingsDispatcher.set({ key, val });
-    console.log(this.props.settings);
+    taxDispatcher.setDisableCalculate(false); // 更新设置则计算按钮重新enable
   }
 
   handleEvent(key, e) {
@@ -78,7 +80,7 @@ export default class Settings extends Component {
         {this.props.settings.isExistedChildrenEducation && <View >
           <Picker mode='selector' range={config.childrenTypes}
             value={this.props.settings.childrenIndex} onChange={this.handleEvent.bind(this, 'childrenIndex')}>
-            <AtListItem title='子女类型' extraText={this.props.settings.childrenIndex} />
+            <AtListItem title='子女类型' extraText={config.childrenTypes[this.props.settings.childrenIndex]} />
           </Picker>
         </View>}
         <View >
@@ -92,7 +94,7 @@ export default class Settings extends Component {
           {this.props.settings.isExistedHouseRent && <View>
             <Picker mode='selector' range={config.cityTypes}
               value={this.props.settings.houseRentIndex} onChange={this.handleEvent.bind(this, 'houseRentIndex')}>
-              <AtListItem title='居住城市的类型' extraText={this.props.settings.houseRentIndex} />
+              <AtListItem title='居住城市的类型' extraText={config.cityTypes[this.props.settings.houseRentIndex]} />
             </Picker>
           </View>}
         </View>
@@ -127,7 +129,7 @@ export default class Settings extends Component {
             <Picker mode='selector' range={config.educationTypes}
               value={this.props.settings.continuingEducationIndex}
               onChange={this.handleEvent.bind(this, 'continuingEducationIndex')}>
-              <AtListItem title='继续教育的类型' extraText={this.props.settings.continuingEducationIndex} />
+              <AtListItem title='继续教育的类型' extraText={config.educationTypes[this.props.settings.continuingEducationIndex]} />
             </Picker>
           </View>}
         </View>

@@ -128,14 +128,19 @@ export function calculateCompany(salary, settings) {
  * @param {number} thresholdOfIncomeTax 个税起征点
  * @param {object} taxLevels 税率表
  * @param {object} settings 参数设置
+ * @param {boolean} type 老版false, 新版true
  */
-export function calculateIncomeTax(salary, thresholdOfIncomeTax, taxLevels, settings) {
+export function calculateIncomeTax(salary, thresholdOfIncomeTax, taxLevels, settings, type) {
   if (salary <= thresholdOfIncomeTax) {
     return 0.0;
   }
 
   const ret = calculatePersonal(salary, settings);
-  const cut = getExtraCut(settings);
+
+  let cut = 0;
+  if (type) {
+    cut = getExtraCut(settings);
+  }
 
   let income = salary - ret.sum - thresholdOfIncomeTax - cut;
   if (income <= 0) {

@@ -9,6 +9,7 @@ import './style.scss';
 const taxDispatcher = dispatcher[MODELS.MODEL_TAX];
 @connect(state => ({
   salary: state[MODELS.MODEL_TAX].salary,
+  disableCalculate: state[MODELS.MODEL_TAX].disableCalculate,
   afterTax: state[MODELS.MODEL_TAX].afterTax,
   personal: state[MODELS.MODEL_TAX].personal,
   company: state[MODELS.MODEL_TAX].company,
@@ -17,28 +18,23 @@ const taxDispatcher = dispatcher[MODELS.MODEL_TAX];
 }))
 export default class Index extends Component {
   config = {
-    navigationBarTitleText: '税扣扣'
+    navigationBarTitleText: '税扣扣 1.0.0'
   };
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      buttonDisabled: true
-    }
-  }
-
-  handleChange(value) {
+  handleChangeSalary(value) {
     taxDispatcher.setSalary(value); // 更新薪水数值
-    this.setState({
-      buttonDisabled: false
-    });
+
+    // 点击clear按钮后,value为空字符,这里需要reset
+    if (value === '') {
+      taxDispatcher.reset();
+    } else {
+      taxDispatcher.setDisableCalculate(false);
+    }
   }
 
   handleCalculate() {
     taxDispatcher.calculate(this.props.settings); // 计算五险一金和个税
-    this.setState({
-      buttonDisabled: true
-    });
+    taxDispatcher.setDisableCalculate(true);
   }
 
   gotoSettings() {
@@ -55,11 +51,19 @@ export default class Index extends Component {
           name='salary'
           title='税前工资：'
           type='number'
+          clear={true}
+          value={this.props.salary === 0 ? '' : this.props.salary}
           placeholder='请输入税前工资'
-          onChange={this.handleChange.bind(this)}
+          onChange={this.handleChangeSalary.bind(this)}
         />
-        <AtButton type="primary" disabled={this.state.buttonDisabled} onClick={this.handleCalculate}>一键计算</AtButton>
-        <AtButton type="secondary" onClick={this.gotoSettings}>设置</AtButton>
+        <View className='at-row'>
+          <View className='at-col at-col-8'>
+            <AtButton type="primary" disabled={this.props.disableCalculate} onClick={this.handleCalculate}>一键计算</AtButton>
+          </View>
+          <View className='at-col at-col-4'>
+            <AtButton type="primary" onClick={this.gotoSettings}>设置</AtButton>
+          </View>
+        </View>
         <View style="height: 5px" />
         <AtAccordion title='个税缴纳' open={true} >
           <AtList hasBorder={false}>
