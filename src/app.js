@@ -19,8 +19,8 @@ if (process.env.TARO_ENV === "weapp") {
 class App extends Component {
   config = {
     pages: [
-      'pages/settings/presenter',
-      'pages/index/presenter'
+      'pages/index/presenter',
+      'pages/settings/presenter'
     ],
     window: {
       backgroundTextStyle: 'light',

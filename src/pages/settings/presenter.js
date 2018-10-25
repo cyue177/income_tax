@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Picker, Text, Switch } from '@tarojs/components';
-import { AtButton, AtSwitch, AtInputNumber, AtListItem } from 'taro-ui';
+import { AtButton, AtInputNumber, AtListItem } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { dispatcher } from '@opcjs/zoro';
 import config from '../../common/config/index';
@@ -22,7 +22,11 @@ export default class Settings extends Component {
   }
 
   handleEvent(key, e) {
-    this.handleValue(key, e.detail.value);
+    let val = e.detail.value;
+    if (parseFloat(val).toString() !== "NaN") {
+      val = parseFloat(val);
+    }
+    this.handleValue(key, val);
   }
 
   render() {
@@ -46,14 +50,16 @@ export default class Settings extends Component {
               bindchange={this.handleEvent.bind(this, 'isExistedSupplementaryHousing')}
             />
           </View>
-          <Text>补充公积金比例(%)</Text>
-          <AtInputNumber
-            min={1}
-            max={5}
-            step={1}
-            value={this.props.settings.supplementaryHousing}
-            onChange={this.handleValue.bind(this, 'supplementaryHousing')}
-          />
+          {this.props.settings.isExistedSupplementaryHousing && <View>
+            <Text>补充公积金比例(%)</Text>
+            <AtInputNumber
+              min={1}
+              max={5}
+              step={1}
+              value={this.props.settings.supplementaryHousing}
+              onChange={this.handleValue.bind(this, 'supplementaryHousing')}
+            />
+          </View>}
         </View>
         <View>
           <Text>是否有首套房贷</Text>
@@ -69,12 +75,12 @@ export default class Settings extends Component {
             bindchange={this.handleEvent.bind(this, 'isExistedChildrenEducation')}
           />
         </View>
-        <View >
+        {this.props.settings.isExistedChildrenEducation && <View >
           <Picker mode='selector' range={config.childrenTypes}
             value={this.props.settings.childrenIndex} onChange={this.handleEvent.bind(this, 'childrenIndex')}>
             <AtListItem title='子女类型' extraText={this.props.settings.childrenIndex} />
           </Picker>
-        </View>
+        </View>}
         <View >
           <View>
             <Text>是否存在租房支出</Text>
@@ -83,10 +89,12 @@ export default class Settings extends Component {
               bindchange={this.handleEvent.bind(this, 'isExistedHouseRent')}
             />
           </View>
-          <Picker mode='selector' range={config.cityTypes}
-            value={this.props.settings.houseRentIndex} onChange={this.handleEvent.bind(this, 'houseRentIndex')}>
-            <AtListItem title='居住城市的类型' extraText={this.props.settings.houseRentIndex} />
-          </Picker>
+          {this.props.settings.isExistedHouseRent && <View>
+            <Picker mode='selector' range={config.cityTypes}
+              value={this.props.settings.houseRentIndex} onChange={this.handleEvent.bind(this, 'houseRentIndex')}>
+              <AtListItem title='居住城市的类型' extraText={this.props.settings.houseRentIndex} />
+            </Picker>
+          </View>}
         </View>
         <View >
           <View>
@@ -96,14 +104,16 @@ export default class Settings extends Component {
               bindchange={this.handleEvent.bind(this, 'isExistedElderlyParents')}
             />
           </View>
-          <Text>兄弟姐妹的人数</Text>
-          <AtInputNumber
-            min={1}
-            max={500}
-            step={1}
-            value={this.props.settings.brothersNumber}
-            onChange={this.handleValue.bind(this, 'brothersNumber')}
-          />
+          {this.props.settings.isExistedElderlyParents && <View>
+            <Text>兄弟姐妹的人数</Text>
+            <AtInputNumber
+              min={1}
+              max={500}
+              step={1}
+              value={this.props.settings.brothersNumber}
+              onChange={this.handleValue.bind(this, 'brothersNumber')}
+            />
+          </View>}
         </View>
         <View >
           <View>
@@ -113,11 +123,16 @@ export default class Settings extends Component {
               bindchange={this.handleEvent.bind(this, 'isExistedContinuingEducation')}
             />
           </View>
-          <Picker mode='selector' range={config.educationTypes}
-            value={this.props.settings.continuingEducationIndex}
-            onChange={this.handleEvent.bind(this, 'continuingEducationIndex')}>
-            <AtListItem title='继续教育的类型' extraText={this.props.settings.continuingEducationIndex} />
-          </Picker>
+          {this.props.settings.isExistedContinuingEducation && <View>
+            <Picker mode='selector' range={config.educationTypes}
+              value={this.props.settings.continuingEducationIndex}
+              onChange={this.handleEvent.bind(this, 'continuingEducationIndex')}>
+              <AtListItem title='继续教育的类型' extraText={this.props.settings.continuingEducationIndex} />
+            </Picker>
+          </View>}
+        </View>
+        <View>
+
         </View>
       </View >
     );

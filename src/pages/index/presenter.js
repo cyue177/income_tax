@@ -41,7 +41,14 @@ export default class Index extends Component {
     });
   }
 
+  gotoSettings() {
+    Taro.navigateTo({
+      url: '/pages/settings/presenter'
+    });
+  }
+
   render() {
+    const supplementaryHousing = this.props.settings.isExistedSupplementaryHousing ? this.props.settings.supplementaryHousing : 0;
     return (
       <View className="index">
         <AtInput
@@ -52,12 +59,14 @@ export default class Index extends Component {
           onChange={this.handleChange.bind(this)}
         />
         <AtButton type="primary" disabled={this.state.buttonDisabled} onClick={this.handleCalculate}>一键计算</AtButton>
+        <AtButton type="secondary" onClick={this.gotoSettings}>设置</AtButton>
         <View style="height: 5px" />
         <AtAccordion title='个税缴纳' open={true} >
           <AtList hasBorder={false}>
             <AtListItem title='之前的个税' extraText={this.props.incomeTax.old.toString()} />
             <AtListItem title='新版的个税' extraText={this.props.incomeTax.new.toString()} />
             <AtListItem title='节约的钱' extraText={this.props.incomeTax.saving.toString()} />
+            <AtListItem title='专项附加扣除' extraText={this.props.incomeTax.cut.toString()} />
             <AtListItem title='到手的钱' extraText={this.props.afterTax.toString()} />
           </AtList>
         </AtAccordion>
@@ -74,11 +83,11 @@ export default class Index extends Component {
               extraText={this.props.company.housing.toString()}
             />
             <AtListItem
-              title={`补充住房公积金(${this.props.settings.supplementaryHousing}%)`}
+              title={`补充住房公积金(${supplementaryHousing}%)`}
               extraText={this.props.company.supplementaryHousing.toString()}
             />
             <AtListItem
-              title={`共计支出(${34 + this.props.settings.housing + this.props.settings.supplementaryHousing}%)`}
+              title={`共计支出(${34 + this.props.settings.housing + supplementaryHousing}%)`}
               extraText={this.props.company.sum.toString()}
             />
           </AtList>
@@ -94,11 +103,11 @@ export default class Index extends Component {
               extraText={this.props.personal.housing.toString()}
             />
             <AtListItem
-              title={`补充住房公积金(${this.props.settings.supplementaryHousing}%)`}
+              title={`补充住房公积金(${supplementaryHousing}%)`}
               extraText={this.props.personal.supplementaryHousing.toString()}
             />
             <AtListItem
-              title={`共计支出(${10.5 + this.props.settings.housing + this.props.settings.supplementaryHousing}%)`}
+              title={`共计支出(${10.5 + this.props.settings.housing + supplementaryHousing}%)`}
               extraText={this.props.personal.sum.toString()}
             />
           </AtList>

@@ -11,6 +11,7 @@ export default {
     incomeTax: {
       old: 0,
       new: 0,
+      cut: 0,
       saving: 0
     },
     personal: {
@@ -48,17 +49,18 @@ export default {
       const c = API.calculateCompany(state.salary, payload);
       const oldTax = API.calculateIncomeTax(state.salary, config.oldThresholdOfIncomeTax, config.oldIncomeTaxLevels, payload);
       const newTax = API.calculateIncomeTax(state.salary, config.newThresholdOfIncomeTax, config.newIncomeTaxLevels, payload);
+      const cut = API.getExtraCut(payload);
 
       const afterTax = API.toTwoFixed(state.salary - newTax - p.sum);
 
       return {
-        ...state,
         afterTax,
         personal: p,
         company: c,
         incomeTax: {
           old: oldTax,
           new: newTax,
+          cut,
           saving: API.toTwoFixed((oldTax - newTax))
         }
       };
