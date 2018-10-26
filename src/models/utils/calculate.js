@@ -28,12 +28,12 @@ export function toTwoFixed(num) {
 }
 
 // 获取社保基数
-function getSocialSecurityBase(salary) {
+function getSocialSecurityBase(salary, settings) {
   let base = salary;
-  if (salary >= config.defaultSettings.maxSocialSecurityBase) {
-    base = config.defaultSettings.maxSocialSecurityBase;
-  } else if (salary <= config.defaultSettings.minSocialSecurityBase) {
-    base = config.defaultSettings.minSocialSecurityBase;
+  if (salary >= settings.maxSocialSecurityBase) {
+    base = settings.maxSocialSecurityBase;
+  } else if (salary <= settings.minSocialSecurityBase) {
+    base = settings.minSocialSecurityBase;
   }
   return base;
 }
@@ -64,7 +64,7 @@ function getIncomeTaxLevel(income, taxLevels) {
  * @param {number} salary 税前月薪
  */
 export function calculatePersonal(salary, settings) {
-  const base = getSocialSecurityBase(salary);
+  const base = getSocialSecurityBase(salary, settings);
 
   const housing = toTwoFixed(base * settings.housing / 100);
   let extraHousing = 0;
@@ -92,7 +92,7 @@ export function calculatePersonal(salary, settings) {
  * @param {number} salary 税前月薪
  */
 export function calculateCompany(salary, settings) {
-  const base = getSocialSecurityBase(salary);
+  const base = getSocialSecurityBase(salary, settings);
 
   const housing = toTwoFixed(base * settings.housing / 100);
   let extraHousing = 0;
