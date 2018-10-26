@@ -20,7 +20,7 @@ class App extends Component {
   config = {
     pages: [
       'pages/index/presenter',
-      'pages/settings/presenter'
+      'pages/settings/presenter',
     ],
     window: {
       backgroundTextStyle: 'light',

@@ -2,9 +2,6 @@ const config = {
   oldThresholdOfIncomeTax: 3500, // 老的起征点
   newThresholdOfIncomeTax: 5000, // 新的起征点
 
-  minSocialSecurityBase: 4279, // 社保基数下限
-  maxSocialSecurityBase: 21396, // 社保基数上限
-
   // 老的税率表
   oldIncomeTaxLevels: [
     { min: 0, max: 1500, rate: 0.03, cut: 0 },
@@ -28,10 +25,10 @@ const config = {
   ],
 
   // 公积金比例
-  housingRate: [5, 6, 7],
+  housingRate: [5, 6, 7, 8, 9, 10, 11, 12],
 
   // 补充公积金比例
-  supplementaryHousingRate: [1, 2, 3, 4, 5],
+  supplementaryHousingRate: [1, 2, 3, 4, 5, 6, 7, 8],
 
   // 租房抵扣
   houseRent: [
@@ -63,6 +60,9 @@ const config = {
   // 默认配置
   defaultSettings: {
     housing: 7, // 住房公积金比例（默认为7）
+
+    minSocialSecurityBase: 4279, // 社保基数下限
+    maxSocialSecurityBase: 21396, // 社保基数上限
 
     isExistedSupplementaryHousing: false, // 是否有补充公积金
     supplementaryHousing: 3, // 补充住房公积金比例（默认为3）
@@ -113,7 +113,9 @@ const config = {
   },
 
   notice: '开源绿色软件，承诺绝不收集使用者的任何信息!',
-  copyright: 'Copyright © 2018 秦杨(qinyang_1980@qq.com) All rights reserved.'
+  copyright: 'Copyright © 2018 秦杨(qinyang_1980@qq.com) All rights reserved.',
+  settingsNotice: '社保基数、公积金、补充公积金比例，默认为上海标准. 使用者如在其它地区，可根据当地政策自行调节.',
+  socialBaseTable: '北京 5080/25401, 上海 4279/21396, 杭州 3054.95/15274.74, 天津 3364/16821, 重庆市 3664/18318, 合肥 3397/16981.74, 福州 4382/18783, 厦门 3772/18864, 兰州 3286.3/16431.5, 广州 3170/18213, 深圳 5008.8/25044, 南宁 3080/15399, 贵阳 3227.45/16137.25, 三亚 3453/17265, 郑州 3524.3/17621.5，哈尔滨 3377.1/16885.5, 武汉 3399.6/19921, 长沙 2695/13473, 南京 3030/6645, 苏州 3030/21963，宁夏 3639/18194.7, 西宁 3709/18549, 济南 3510/17550, 太原 3076/15386, 成都 2388/17908, 乌鲁木齐 3019/15096'
 };
 
 export default config;

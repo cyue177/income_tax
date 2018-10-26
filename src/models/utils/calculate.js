@@ -30,10 +30,10 @@ export function toTwoFixed(num) {
 // 获取社保基数
 function getSocialSecurityBase(salary) {
   let base = salary;
-  if (salary >= config.maxSocialSecurityBase) {
-    base = config.maxSocialSecurityBase;
-  } else if (salary <= config.minSocialSecurityBase) {
-    base = config.minSocialSecurityBase;
+  if (salary >= config.defaultSettings.maxSocialSecurityBase) {
+    base = config.defaultSettings.maxSocialSecurityBase;
+  } else if (salary <= config.defaultSettings.minSocialSecurityBase) {
+    base = config.defaultSettings.minSocialSecurityBase;
   }
   return base;
 }

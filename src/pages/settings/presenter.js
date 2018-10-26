@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Picker, Text, Switch } from '@tarojs/components';
-import { AtButton, AtInputNumber, AtListItem } from 'taro-ui';
+import { AtButton, AtInput, AtInputNumber, AtListItem, AtModal, AtModalHeader, AtModalContent, AtModalAction } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { dispatcher } from '@opcjs/zoro';
 import config from '../../common/config/index';
@@ -17,6 +17,19 @@ export default class Settings extends Component {
   config = {
     navigationBarTitleText: '设置'
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      socialBaseTableOpened: false
+    };
+  }
+
+  setSocialTableOpen(open) {
+    this.setState({
+      socialBaseTableOpened: open
+    });
+  }
 
   handleValue(key, val) {
     settingsDispatcher.set({ key, val });
@@ -35,10 +48,25 @@ export default class Settings extends Component {
     return (
       <View className="index">
         <View >
+          <Text>社保基数：</Text>
+          <AtInput
+            title='下限(元)：'
+            type='number'
+            value={this.props.settings.minSocialSecurityBase}
+            onChange={this.handleValue.bind(this, 'minSocialSecurityBase')}
+          />
+          <AtInput
+            title='上限(元)：'
+            type='number'
+            value={this.props.settings.maxSocialSecurityBase}
+            onChange={this.handleValue.bind(this, 'maxSocialSecurityBase')}
+          />
+        </View>
+        <View >
           <Text>公积金比例(%)</Text>
           <AtInputNumber
             min={5}
-            max={7}
+            max={12}
             step={1}
             value={this.props.settings.housing}
             onChange={this.handleValue.bind(this, 'housing')}
@@ -56,7 +84,7 @@ export default class Settings extends Component {
             <Text>补充公积金比例(%)</Text>
             <AtInputNumber
               min={1}
-              max={5}
+              max={8}
               step={1}
               value={this.props.settings.supplementaryHousing}
               onChange={this.handleValue.bind(this, 'supplementaryHousing')}
@@ -133,9 +161,25 @@ export default class Settings extends Component {
             </Picker>
           </View>}
         </View>
-        <View>
-
+        <View className='at-article__p'>
+          {config.settingsNotice}
         </View>
+        <View className="social-btn">
+          <AtButton type="secondary" size="small" onClick={this.setSocialTableOpen.bind(this, true)}>
+            点击查看各地2018最新社保基数
+          </AtButton>
+        </View>
+        <AtModal isOpened={this.state.socialBaseTableOpened}>
+          <AtModalHeader>各地社保基数一览</AtModalHeader>
+          <AtModalContent>
+            {config.socialBaseTable}
+          </AtModalContent>
+          <AtModalAction>
+            <Button style='color:#6190E8' onClick={this.setSocialTableOpen.bind(this, false)}>
+              关闭
+            </Button>
+          </AtModalAction>
+        </AtModal>
       </View >
     );
   }
