@@ -51,13 +51,13 @@ export default class Settings extends Component {
           <Text>社保基数：</Text>
           <AtInput
             title='下限(元)：'
-            type='number'
+            type='digit'
             value={this.props.settings.minSocialSecurityBase}
             onChange={this.handleValue.bind(this, 'minSocialSecurityBase')}
           />
           <AtInput
             title='上限(元)：'
-            type='number'
+            type='digit'
             value={this.props.settings.maxSocialSecurityBase}
             onChange={this.handleValue.bind(this, 'maxSocialSecurityBase')}
           />
