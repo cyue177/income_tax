@@ -47,7 +47,7 @@ export default {
           old: oldTax,
           new: newTax,
           cut,
-          saving: API.toTwoFixed((oldTax - newTax))
+          saving: API.toTwoFixed(oldTax - newTax)
         }
       };
     },
