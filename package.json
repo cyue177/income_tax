@@ -1,6 +1,6 @@
 {
   "name": "income_tax",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "计算个税的小程序",
   "main": "index.js",
   "scripts": {
