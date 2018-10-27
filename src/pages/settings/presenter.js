@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Picker, Text, Switch } from '@tarojs/components';
-import { AtButton, AtInput, AtInputNumber, AtListItem, AtModal, AtModalHeader, AtModalContent, AtModalAction } from 'taro-ui';
+import { AtButton, AtInput, AtInputNumber, AtListItem, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtNoticebar } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { dispatcher } from '@opcjs/zoro';
 import config from '../../common/config/index';
@@ -161,9 +161,9 @@ export default class Settings extends Component {
             </Picker>
           </View>}
         </View>
-        <View className='at-article__p'>
+        <AtNoticebar icon='volume-plus'>
           {config.settingsNotice}
-        </View>
+        </AtNoticebar>
         <View className="social-btn">
           <AtButton type="secondary" size="small" onClick={this.setSocialTableOpen.bind(this, true)}>
             点击查看各地2018最新社保基数

@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Button } from '@tarojs/components';
-import { AtInput, AtButton, AtAccordion, AtList, AtListItem, AtAvatar } from 'taro-ui';
+import { AtInput, AtButton, AtAccordion, AtList, AtListItem, AtNoticebar } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { dispatcher } from '@opcjs/zoro';
 import config from '../../common/config/index';
@@ -19,7 +19,7 @@ const taxDispatcher = dispatcher[MODELS.MODEL_TAX];
 }))
 export default class Index extends Component {
   config = {
-    navigationBarTitleText: '税扣扣 2.1.0'
+    navigationBarTitleText: '税扣扣 2.2.0'
   };
 
   handleChangeSalary(value) {
@@ -123,12 +123,12 @@ export default class Index extends Component {
             />
           </AtList>
         </AtAccordion>
-        <View className='at-article__p'>
+        <AtNoticebar icon='volume-plus'>
           {config.notice}
-        </View>
-        <View className='at-article__p'>
+        </AtNoticebar>
+        <AtNoticebar>
           {config.copyright}
-        </View>
+        </AtNoticebar>
         <View className='reward-view'>
           <AtButton type='secondary' size="small" onClick={this.handleReward}>打赏</AtButton>
         </View>
