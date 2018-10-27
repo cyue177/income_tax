@@ -1,5 +1,10 @@
 .index {
   margin: 15px;
+
+  &.item {
+    margin: 5px;
+    background-color: yellow;
+  }
 }
 
 .at-accordion .at-list__item .item-extra__info {

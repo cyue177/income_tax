@@ -64,11 +64,11 @@ export default class Index extends Component {
           onChange={this.handleChangeSalary.bind(this)}
         />
         <View className='at-row'>
+          <View className='at-col at-col-4'>
+            <AtButton type="secondary" onClick={this.gotoSettings}>设置</AtButton>
+          </View>
           <View className='at-col at-col-8'>
             <AtButton type="primary" disabled={this.props.disableCalculate} onClick={this.handleCalculate}>一键计算</AtButton>
-          </View>
-          <View className='at-col at-col-4'>
-            <AtButton type="primary" onClick={this.gotoSettings}>设置</AtButton>
           </View>
         </View>
         <View style="height: 5px" />
