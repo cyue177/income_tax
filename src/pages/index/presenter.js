@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
-import { View } from '@tarojs/components';
-import { AtInput, AtButton, AtAccordion, AtList, AtListItem } from 'taro-ui';
+import { View, Button } from '@tarojs/components';
+import { AtInput, AtButton, AtAccordion, AtList, AtListItem, AtAvatar } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { dispatcher } from '@opcjs/zoro';
 import config from '../../common/config/index';
@@ -41,6 +41,12 @@ export default class Index extends Component {
   gotoSettings() {
     Taro.navigateTo({
       url: '/pages/settings/presenter'
+    });
+  }
+
+  handleReward() {
+    Taro.previewImage({
+      urls: [config.rewardPicAddress] // 需要预览的图片https链接列表
     });
   }
 
@@ -122,6 +128,9 @@ export default class Index extends Component {
         </View>
         <View className='at-article__p'>
           {config.copyright}
+        </View>
+        <View className='reward-view'>
+          <AtButton type='secondary' size="small" onClick={this.handleReward}>打赏</AtButton>
         </View>
       </View >
     );
